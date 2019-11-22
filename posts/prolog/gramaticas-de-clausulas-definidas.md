@@ -3,7 +3,7 @@
 
 Las **gramáticas de cláusulas definidas** (**DCG's**) permiten representar una gramática formal como un conjunto de cláusulas definidas en una lógica de primer orden. Estas DCG's proporcionan a los lenguajes de programación lógicos como Prolog una forma conveniente y efectiva de expresar gramáticas, resultando especialmente útiles en el **procesamiento** de **lenguajes naturales** y de **lenguajes formales**.
 
-***Nota.*** *Como veremos a continuación, las DCG's están muy relacionadas con las ***listas abiertas*** y las ***listas diferencia***. Puedes leer el artículo [Prolog - Estructuras de datos incompletas](https://github.com/jariazavalverde/blog/blob/master/posts/prolog/estructuras-de-datos-incompletas.md) para obtener más información sobre estas.*
+***Nota.*** *Como veremos a continuación, las DCG's están muy relacionadas con las **listas abiertas** y las **listas diferencia**. Puedes leer el artículo [Prolog - Estructuras de datos incompletas](https://github.com/jariazavalverde/blog/blob/master/posts/prolog/estructuras-de-datos-incompletas.md) para obtener más información sobre estas.*
 
 ## Sintaxis
 
@@ -85,7 +85,7 @@ Una **gramática libre de contexto** es una gramática formal en la que cada reg
 * *`B → bB | C`*
 * *`C → cC | ε`*
 
-*genera el lenguaje `{a*b*c*}`, donde `|` es un operador usado para separar múltiples opciones para un mismo no terminal, los símbolos `A`, `B` y `C` son no terminales, los símbolos `a`, `b` y `c` son terminales, y `ε` indica una cadena vacía.*
+*genera el lenguaje `{a\*b\*c\*}`, donde `|` es un operador usado para separar múltiples opciones para un mismo no terminal, los símbolos `A`, `B` y `C` son no terminales, los símbolos `a`, `b` y `c` son terminales, y `ε` indica una cadena vacía.*
 
 *Podemos expresar esta gramática en Prolog con DCG's tal y como hicimos anteriormente. Vemos que en Prolog la producción vacía `ε` se corresponde con una lista vacía. Tal y como esperábamos, podemos generar cadenas con cualquier número de símbolos `a`, `b` y `c`, en ese orden. Por eso, una vez que se ha encontrado una `b` no es posible que aparezca una `a` y la cadena `[b,a,c]` no puede ser derivada en este lenguaje.*
 
@@ -123,7 +123,7 @@ Una **gramática sensible al contexto** es una gramática formal en la que cada 
 
 En Prolog, no podemos trasladar directamente estas gramáticas sensibles al contexto a la sintaxis de DCG's, pero sí podemos conseguir una expresividad similar añadiendo parámetros adicionales a las reglas de producción de las gramáticas.
 
-***Ejemplo.*** *En la siguiente DCG hemos añadido un parámetro adicional a las reglas de producción, para indicar el número de símbolos a analizar. Si bien antes estas reglas eran traducidas a cláusulas Prolog estándar con 2 argumentos, ahora son traducidas a cláusulas con 3 argumentos (2 argumentos para las listas abiertas y 1 para nuestro parámetro adicional). También es importante observar que podemos invocar predicados Prolog arbitrarios en medio de las reglas de producción, encerrando estas llamadas en el término `{}/1.` De esta forma, le indicamos al intérprete que esas regiones de código no forman parte de la gramática y por lo tanto no deben ser traducidas a la sintaxis de listas abiertas.*
+***Ejemplo.*** *En la siguiente DCG hemos añadido un parámetro adicional a las reglas de producción, para indicar el número de símbolos a analizar. Si bien antes estas reglas eran traducidas a cláusulas Prolog estándar con 2 argumentos, ahora son traducidas a cláusulas con 3 argumentos (2 argumentos para las listas abiertas y 1 para nuestro parámetro adicional). También es importante observar que podemos invocar predicados Prolog arbitrarios en medio de las reglas de producción, encerrando estas llamadas en el término `{}/1`. De esta forma, le indicamos al intérprete que esas regiones de código no forman parte de la gramática y por lo tanto no deben ser traducidas a la sintaxis de listas abiertas.*
 
 ```prolog
 s(N) --> a(N), {N > 0}, b(N), c(N).

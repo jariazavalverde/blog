@@ -50,7 +50,7 @@ Una **lista abierta** es una lista que tiene como cola una **variable libre**, l
 
 Una **lista diferencia** es un par formado por una lista abierta y su hueco. En Prolog, representaremos este par como `L-H`, donde `L` es una lista abierta que tiene como hueco a la variable `H`. Por ejemplo: `[1, 2, 3|X]-X`.
 
-***Nota.*** *Aunque `-/2` tiene connotaciones de resta, no hay porqué preocuparse, puesto que en este contexto es simplemente un operador infijo que no será interpretado.*
+***Nota.*** *Aunque `(-)/2` tiene connotaciones de resta, no hay porqué preocuparse, puesto que en este contexto es simplemente un operador infijo que no será interpretado.*
 
 ```prolog
 append_diff(A-Ha, B-Hb, C-Hc) :- Ha = B, C = A, Hc = Hb.
