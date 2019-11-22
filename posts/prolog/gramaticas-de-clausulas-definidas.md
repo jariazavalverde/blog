@@ -21,21 +21,21 @@ sustantivo --> [gato].
 sustantivo --> [pescado].
 verbo --> [come].
 
-?- oracion([el, gato, come, pescado], []).
-true.
+% ?- oracion([el, gato, come, pescado], []).
+% true.
 
-?- oracion([come, gato, pescado, el], []).
-false.
+% ?- oracion([come, gato, pescado, el], []).
+% false.
 
-?- oracion(X, []).
-X = [el, gato, come, gato] ;
-X = [el, gato, come, pescado] ;
-X = [el, pescado, come, gato] ;
-X = [el, pescado, come, pescado] ;
-X = [un, gato, come, gato] ;
-X = [un, gato, come, pescado] ;
-X = [un, pescado, come, gato] ;
-X = [un, pescado, come, pescado].
+% ?- oracion(X, []).
+% X = [el, gato, come, gato] ;
+% X = [el, gato, come, pescado] ;
+% X = [el, pescado, come, gato] ;
+% X = [el, pescado, come, pescado] ;
+% X = [un, gato, come, gato] ;
+% X = [un, gato, come, pescado] ;
+% X = [un, pescado, come, gato] ;
+% X = [un, pescado, come, pescado].
 ```
 
 Como vemos en el ejemplo anterior, las producciones de la DCG se definen en Prolog mediante reglas de la forma `Cabeza --> Cuerpo`, donde la cabeza representa un símbolo no terminal de la gramática y el cuerpo es una cadena de símbolos terminales y no terminales. Un símbolo **terminal** se expresa en Prolog como una lista, que representa los elementos que contiene. Un símbolo **no terminal** se refiere a otra construcción de la gramática, que representa los elementos que ella misma describe.
@@ -54,21 +54,21 @@ sustantivo([gato|L], L).
 sustantivo([pescado|L], L).
 verbo([come|L], L).
 
-?- oracion([el, gato, come, pescado], []).
-true.
+% ?- oracion([el, gato, come, pescado], []).
+% true.
 
-?- oracion([come, gato, pescado, el], []).
-false.
+% ?- oracion([come, gato, pescado, el], []).
+% false.
 
-?- oracion(X, []).
-X = [el, gato, come, gato] ;
-X = [el, gato, come, pescado] ;
-X = [el, pescado, come, gato] ;
-X = [el, pescado, come, pescado] ;
-X = [un, gato, come, gato] ;
-X = [un, gato, come, pescado] ;
-X = [un, pescado, come, gato] ;
-X = [un, pescado, come, pescado].
+% ?- oracion(X, []).
+% X = [el, gato, come, gato] ;
+% X = [el, gato, come, pescado] ;
+% X = [el, pescado, come, gato] ;
+% X = [el, pescado, come, pescado] ;
+% X = [un, gato, come, gato] ;
+% X = [un, gato, come, pescado] ;
+% X = [un, pescado, come, gato] ;
+% X = [un, pescado, come, pescado].
 ```
 
 Cada vez que introducimos una regla de producción `Cabeza --> Cuerpo` en un intérprete de Prolog, este transforma la sintaxis de DCG a una cláusula Prolog estándar de la forma que acabamos de ver.
@@ -97,14 +97,14 @@ b --> c.
 c --> [c], c.
 c --> [].
 
-?- a([a,b,c], []).
-true.
+% ?- a([a,b,c], []).
+% true.
 
-?- a([a,a,a,b,b,c], []).
-true.
+% ?- a([a,a,a,b,b,c], []).
+% true.
 
-?- a([b,a,c], []).
-false.
+% ?- a([b,a,c], []).
+% false.
 ```
 
 Las gramáticas libres de contexto son simples y permiten describir la sintaxis de la mayoría de los lenguajes de programación. No obstante, no son lo suficientemente expresivas para describir cualquier lenguaje formal. Supongamos que en lugar de generar el lenguaje `{a*b*c*}` estuviésemos interesados en generar cadenas con el mismo número de terminales `a`, `b` y `c`, es decir, el lenguaje `{aⁿbⁿcⁿ : n>0}`. Para ello, debemos recurrir a las gramáticas sensibles al contexto.
@@ -134,14 +134,14 @@ b(0) --> [].
 c(N) --> [c], c(M), {succ(M, N)}.
 c(0) --> [].
 
-?- s(X, [a,a,b,b,c,c], []).
-X = 2.
+% ?- s(X, [a,a,b,b,c,c], []).
+% X = 2.
 
-?- s(X, [a,a,a,b,b,b,c,c,c], []).
-X = 3.
+% ?- s(X, [a,a,a,b,b,b,c,c,c], []).
+% X = 3.
 
-?- s(X, [a,b,b,c,c,c], []).
-false.
+% ?- s(X, [a,b,b,c,c,c], []).
+% false.
 ```
 
 El uso más práctico y común de los parámetros adicionales en las gramáticas de cláusulas definidas es el de capturar información sobre el proceso de análisis de una cadena para construir su árbol de análisis.
@@ -163,12 +163,12 @@ expresion(X) --> termino(X).
 termino(X) --> numero(X).
 termino(X) --> ['('], expresion(X), [')'].
 
-?- atom_chars('3098', C), expresion(X, C, []).
-X = 3098.
+% ?- atom_chars('3098', C), expresion(X, C, []).
+% X = 3098.
 
-?- atom_chars('102+(22-35)', C), expresion(X, C, []).
-X = add(102, sub(22, 35)).
+% ?- atom_chars('102+(22-35)', C), expresion(X, C, []).
+% X = add(102, sub(22, 35)).
 
-?- atom_chars('(55-21)+(73-2)', C), expresion(X, C, []).
-X = add(sub(55, 21), sub(73, 2)).
+% ?- atom_chars('(55-21)+(73-2)', C), expresion(X, C, []).
+% X = add(sub(55, 21), sub(73, 2)).
 ```
