@@ -1,9 +1,9 @@
 # Prolog - Estructuras de datos incompletas
-## Listas abiertas y listas diferencia
+> Listas abiertas y listas diferencia
 
 Las **estructuras de datos incompletas** proporcionan una técnica de programación propia de Prolog que permite incrementar la eficiencia de los programas lógicos y simplificar su diseño. Estas estructuras se apoyan en el uso de **variables lógicas** para representar **huecos**, los cuales simbolizan partes de las estructuras que todavía no han sido computadas. La estructura incompleta más utilizada es la **lista diferencia**.
 
-### El problema de la concatenación de listas
+## El problema de la concatenación de listas
 
 La definición de la concatenación de listas usual no tiene ningún misterio: el predicado `append/3` es cierto cuando la tercera lista es la concatenación de las dos primeras.
 
@@ -31,7 +31,7 @@ X = [2, 3, 1] ; X = [1, 3, 2] ;
 X = [3, 1, 2] ; X = [3, 2, 1] ;
 ```
 
-### Listas abiertas y listas diferencia
+## Listas abiertas y listas diferencia
 
 Una **lista abierta** es una lista que tiene como cola una **variable libre**, la cual es llamada **hueco**. Esta variable puede unificar con otra lista, resultando así en una concatenación de listas.
 
@@ -66,7 +66,7 @@ append_diff(A-B, B-C, A-C).
 
 Ahora es posible concatenar cualquier par de listas diferencia en **tiempo constante**, aunque este predicado no permite obtener por reevaluación todos los pares de listas tal que al concatenarlos producen una determinada lista, tal y como se haría con `append(-Xs, -Ys, +Zs)`.
 
-### Manipulando listas diferencia
+## Manipulando listas diferencia
 
 Cuando trabajamos con listas diferencia, debemos manipular siempre la estructura adecuada `L-H` en todos los predicados involucrados.
 
