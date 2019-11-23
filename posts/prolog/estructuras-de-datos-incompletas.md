@@ -11,7 +11,7 @@ La definición de la concatenación de listas usual no tiene ningún misterio: e
 append([], X, X).
 append([H|T], X, [H|S]) :- append(T, X, S).
 
-% ? append([1,2,3], [4,5,6], X).
+% ?- append([1,2,3], [4,5,6], X).
 % X = [1, 2, 3, 4, 5, 6] ;
 ```
 
@@ -65,6 +65,9 @@ Podemos reescribir el predicado `append_diff/3` anterior de forma más sintétic
 
 ```prolog
 append_diff(A-B, B-C, A-C).
+
+% ?- append_diff([1,2,3|X]-X, [4,5,6|Y]-Y, Z).
+% X = [4, 5, 6|Y], Z = [1, 2, 3, 4, 5, 6|Y]-Y ;
 ```
 
 Ahora es posible concatenar cualquier par de listas diferencia en **tiempo constante**, aunque este predicado no permite obtener por reevaluación todos los pares de listas tal que al concatenarlos producen una determinada lista, tal y como se haría con `append(-Xs, -Ys, +Zs)`.
