@@ -85,7 +85,7 @@ Una **gramática libre de contexto** es una gramática formal en la que cada reg
 * *`B → bB | C`*
 * *`C → cC | ε`*
 
-*genera el lenguaje `{a\*b\*c\*}`, donde `|` es un operador usado para separar múltiples opciones para un mismo no terminal, los símbolos `A`, `B` y `C` son no terminales, los símbolos `a`, `b` y `c` son terminales, y `ε` indica una cadena vacía.*
+*genera el lenguaje `{a*b*c*}`, donde `|` es un operador usado para separar múltiples opciones para un mismo no terminal, los símbolos `A`, `B` y `C` son no terminales, los símbolos `a`, `b` y `c` son terminales, y `ε` indica una cadena vacía.*
 
 *Podemos expresar esta gramática en Prolog con DCG's tal y como hicimos anteriormente. Vemos que en Prolog la producción vacía `ε` se corresponde con una lista vacía. Tal y como esperábamos, podemos generar cadenas con cualquier número de símbolos `a`, `b` y `c`, en ese orden. Por eso, una vez que se ha encontrado una `b` no es posible que aparezca una `a` y la cadena `[b,a,c]` no puede ser derivada en este lenguaje.*
 
@@ -146,7 +146,14 @@ c(0) --> [].
 
 El uso más práctico y común de los parámetros adicionales en las gramáticas de cláusulas definidas es el de capturar información sobre el proceso de análisis de una cadena para construir su árbol de análisis.
 
-***Ejemplo.*** *La siguiente gramática analiza y devuelve expresiones aritméticas formadas por números naturales, paréntesis y los operadores binarios `(+)/2` y `(-)/2`. La regla `digito/3` analiza un carácter y comprueba que es un dígito. La regla `digitos/3` obtiene una secuencia no vacía de dígitos y la convierte en un número. La regla `termino/3` permite analizar un número natural o una expresión entre paréntesis. Y por último, la regla `expresion/3` permite analizar términos, así como sumas y restas de términos.*
+***Ejemplo.*** *La siguiente gramática analiza expresiones aritméticas formadas por números naturales, paréntesis y los operadores binarios `(+)/2` y `(-)/2`.*
+
+* *`Expresion → Termino + Termino | Termino - Termino | Termino`*
+* *`Termino → Natural | ( Expresion )`*
+* *`Natural → Digito Natural | Digito`*
+* *`Digito → 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9`*
+
+*A continuación se muestra una posible implementación de esta gramática en Prolog, que permite analizar cadenas generadas por este lenguaje, proporcionando además un árbol de análisis de la expresión analizada. La regla `digito/3` analiza un carácter y comprueba que es un dígito. La regla `digitos/3` obtiene una secuencia de dígitos. La regla `natural/3` obtiene una secuencia no vacía de dígitos y la convierte en un número. La regla `termino/3` permite analizar un número natural o una expresión entre paréntesis. Y por último, la regla `expresion/3` permite analizar términos, así como sumas y restas de términos.*
 
 ```prolog
 digito(X) --> [X], {char_code(X, C), C >= 48, C =< 57}.
@@ -154,13 +161,13 @@ digito(X) --> [X], {char_code(X, C), C >= 48, C =< 57}.
 digitos([X|Xs]) --> digito(X), !, digitos(Xs).
 digitos([]) --> [].
 
-numero(X) --> digitos(Xs), {Xs \= [], number_chars(X, Xs)}.
+natural(X) --> digitos(Xs), {Xs \= [], number_chars(X, Xs)}.
 
 expresion(add(X,Y)) --> termino(X), [+], termino(Y).
 expresion(sub(X,Y)) --> termino(X), [-], termino(Y).
 expresion(X) --> termino(X).
 
-termino(X) --> numero(X).
+termino(X) --> natural(X).
 termino(X) --> ['('], expresion(X), [')'].
 
 % ?- atom_chars('3098', C), expresion(X, C, []).
