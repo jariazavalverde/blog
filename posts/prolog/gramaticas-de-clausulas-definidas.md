@@ -144,6 +144,8 @@ c(0) --> [].
 % false.
 ```
 
+## Árboles de análisis
+
 El uso más práctico y común de los parámetros adicionales en las gramáticas de cláusulas definidas es el de capturar información sobre el proceso de análisis de una cadena para construir su árbol de análisis.
 
 ***Ejemplo.*** *La siguiente gramática analiza expresiones aritméticas formadas por números naturales, paréntesis y los operadores binarios `(+)/2` y `(-)/2`.*
