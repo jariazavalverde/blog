@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+	<channel>
+		<title>JARV's blog</title>
+		<description><![CDATA[Blog of José Antonio Riaza Valverde]]></description>
+		<link>http://jariaza.es/blog</link>
+		<item>
+			<title><![CDATA[Prolog — Gramáticas de cláusulas definidas]]></title>
+			<link>http://jariaza.es/blog/post/prolog/gramaticas-de-clausulas-definidas.md</link>
+			<category><![CDATA[programación-lógica]]></category>
+			<category><![CDATA[prolog]]></category>
+			<category><![CDATA[análisis-sintáctico]]></category>
+			<category><![CDATA[gramática]]></category>
+			<category><![CDATA[dcg]]></category>
+			<pubDate>Fri, 19 Apr 2019 21:05:26 GMT</pubDate>
+			<description><![CDATA[Las gramáticas de cláusulas definidas (DCG's) permiten representar una gramática formal como un conjunto de cláusulas definidas en una lógica de primer orden. Estas DCG's proporcionan a los lenguajes de programación lógicos como Prolog una forma conveniente y efectiva de expresar gramáticas, resultando especialmente útiles en el procesamiento de lenguajes naturales y de lenguajes formales.]]></description>
+		</item>
+		<item>
+			<title><![CDATA[Prolog — Estructuras de datos incompletas]]></title>
+			<link>http://jariaza.es/blog/post/prolog/estructuras-de-datos-incompletas.md</link>
+			<category><![CDATA[listas]]></category>
+			<category><![CDATA[listas-diferencia]]></category>
+			<category><![CDATA[programación-lógica]]></category>
+			<category><![CDATA[prolog]]></category>
+			<pubDate>Tue, 15 Aug 2017 17:06:19 GMT</pubDate>
+			<description><![CDATA[Las estructuras de datos incompletas proporcionan una técnica de programación propia de Prolog que permite incrementar la eficiencia de los programas lógicos y simplificar su diseño. Estas estructuras se apoyan en el uso de variables lógicas para representar huecos, los cuales simbolizan partes de las estructuras que todavía no han sido computadas. La estructura incompleta más utilizada es la lista diferencia.]]></description>
+		</item>
+	</channel>
+</rss>
