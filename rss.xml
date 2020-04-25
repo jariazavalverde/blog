@@ -6,7 +6,7 @@
 		<link>http://jariaza.es/blog</link>
 		<item>
 			<title><![CDATA[Prolog — Gramáticas de cláusulas definidas]]></title>
-			<link>http://jariaza.es/blog/post/prolog/gramaticas-de-clausulas-definidas.md</link>
+			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/gramaticas-de-clausulas-definidas.md</link>
 			<category><![CDATA[programación-lógica]]></category>
 			<category><![CDATA[prolog]]></category>
 			<category><![CDATA[análisis-sintáctico]]></category>
@@ -17,7 +17,7 @@
 		</item>
 		<item>
 			<title><![CDATA[Prolog — Estructuras de datos incompletas]]></title>
-			<link>http://jariaza.es/blog/post/prolog/estructuras-de-datos-incompletas.md</link>
+			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/estructuras-de-datos-incompletas.md</link>
 			<category><![CDATA[listas]]></category>
 			<category><![CDATA[listas-diferencia]]></category>
 			<category><![CDATA[programación-lógica]]></category>
