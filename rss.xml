@@ -16,6 +16,17 @@
 			<description><![CDATA[Las gramáticas de cláusulas definidas (DCG's) permiten representar una gramática formal como un conjunto de cláusulas definidas en una lógica de primer orden. Estas DCG's proporcionan a los lenguajes de programación lógicos como Prolog una forma conveniente y efectiva de expresar gramáticas, resultando especialmente útiles en el procesamiento de lenguajes naturales y de lenguajes formales.]]></description>
 		</item>
 		<item>
+			<title><![CDATA[Haskell — Programación a nivel de tipo]]></title>
+			<link>https://github.com/jariazavalverde/blog/blob/master/posts/haskell/programacion-a-nivel-de-tipo.md</link>
+			<category><![CDATA[programación-funcional]]></category>
+			<category><![CDATA[haskell]]></category>
+			<category><![CDATA[programación-a-nivel-de-tipo]]></category>
+			<category><![CDATA[vectores]]></category>
+			<category><![CDATA[longitud-indexada]]></category>
+			<pubDate>Sun, 20 May 2018 15:34:23 GMT</pubDate>
+			<description><![CDATA[La programación a nivel de tipo implica codificar cierta lógica en el sistema de tipo del lenguaje, que es evaluada y comprobada en tiempo de compilación. Uno de los ejemplos más típicos es el de los vectores con longitud indexada, que añaden la longitud de la lista en el sistema de tipo, evitando estáticamente errores de "fuera de límites".]]></description>
+		</item>
+		<item>
 			<title><![CDATA[Prolog — Estructuras de datos incompletas]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/estructuras-de-datos-incompletas.md</link>
 			<category><![CDATA[listas]]></category>
