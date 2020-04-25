@@ -85,7 +85,7 @@ Una **gramática libre de contexto** es una gramática formal en la que cada reg
 * *`B → bB | C`*
 * *`C → cC | ε`*
 
-*genera el lenguaje `{a*b*c*}`, donde `|` es un operador usado para separar múltiples opciones para un mismo no terminal, los símbolos `A`, `B` y `C` son no terminales, los símbolos `a`, `b` y `c` son terminales, y `ε` indica una cadena vacía.*
+*genera el lenguaje* `{a*b*c*}`*, donde `|` es un operador usado para separar múltiples opciones para un mismo no terminal, los símbolos `A`, `B` y `C` son no terminales, los símbolos `a`, `b` y `c` son terminales, y `ε` indica una cadena vacía.*
 
 *Podemos expresar esta gramática en Prolog con DCG's tal y como hicimos anteriormente. Vemos que en Prolog la producción vacía `ε` se corresponde con una lista vacía. Tal y como esperábamos, podemos generar cadenas con cualquier número de símbolos `a`, `b` y `c`, en ese orden. Por eso, una vez que se ha encontrado una `b` no es posible que aparezca una `a` y la cadena `[b,a,c]` no puede ser derivada en este lenguaje.*
 
