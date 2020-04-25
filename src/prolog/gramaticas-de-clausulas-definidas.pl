@@ -35,8 +35,8 @@ digitos([]) --> [].
 
 numero(X) --> digitos(Xs), {Xs \= [], number_chars(X, Xs)}.
 
-expresion(add(X,Y)) --> termino(X), [+], termino(Y).
-expresion(sub(X,Y)) --> termino(X), [-], termino(Y).
+expresion(add(X,Y)) --> termino(X), [+], expresion(Y).
+expresion(sub(X,Y)) --> termino(X), [-], expresion(Y).
 expresion(X) --> termino(X).
 
 termino(X) --> numero(X).
