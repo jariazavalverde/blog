@@ -150,7 +150,7 @@ El uso más práctico y común de los parámetros adicionales en las gramáticas
 
 ***Ejemplo.*** *La siguiente gramática analiza expresiones aritméticas formadas por números naturales, paréntesis y los operadores binarios `(+)/2` y `(-)/2`.*
 
-* *`Expresion → Termino + Termino | Termino - Termino | Termino`*
+* *`Expresion → Termino + Expresion | Termino - Expresion | Termino`*
 * *`Termino → Natural | ( Expresion )`*
 * *`Natural → Digito Natural | Digito`*
 * *`Digito → 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9`*
@@ -165,8 +165,8 @@ digitos([]) --> [].
 
 natural(X) --> digitos(Xs), {Xs \= [], number_chars(X, Xs)}.
 
-expresion(add(X,Y)) --> termino(X), [+], termino(Y).
-expresion(sub(X,Y)) --> termino(X), [-], termino(Y).
+expresion(add(X,Y)) --> termino(X), [+], expresion(Y).
+expresion(sub(X,Y)) --> termino(X), [-], expresion(Y).
 expresion(X) --> termino(X).
 
 termino(X) --> natural(X).
@@ -175,8 +175,11 @@ termino(X) --> ['('], expresion(X), [')'].
 % ?- atom_chars('3098', C), expresion(X, C, []).
 % X = 3098.
 
-% ?- atom_chars('102+(22-35)', C), expresion(X, C, []).
-% X = add(102, sub(22, 35)).
+% ?- atom_chars('15+32+56', C), expresion(X, C, []).
+% X = add(15, add(32, 56)).
+
+% ?- atom_chars('102-(22+35)', C), expresion(X, C, []).
+% X = sub(102, add(22, 35)).
 
 % ?- atom_chars('(55-21)+(73-2)', C), expresion(X, C, []).
 % X = add(sub(55, 21), sub(73, 2)).
