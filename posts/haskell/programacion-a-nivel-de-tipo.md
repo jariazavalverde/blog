@@ -26,7 +26,7 @@ con los que podemos representar los números naturales como:
 2. `Succ (Succ Zero)`
 3. `Succ (Succ (Succ Zero))`
 
-Es fácil ver que el tipo (`:type`) de estos datos es `Nat`. También es fácil ver que el tipo (`:kind`) del tipo `Nat` es `*`. Por lo tanto, lo que tenemos son números naturales a nivel de término. Por ejemplo, podemos implementar una función que reciba dons números naturales y nos devuelva su suma:
+Es fácil ver que el tipo (`:type`) de estos datos es `Nat`. También es fácil ver que el tipo (`:kind`) del tipo `Nat` es `*`. Por lo tanto, lo que tenemos son números naturales a nivel de término. Por ejemplo, podemos implementar una función que reciba dos números naturales y nos devuelva su suma:
 
 ```haskell
 add :: Nat -> Nat -> Nat
@@ -57,22 +57,33 @@ data Vector (n :: Nat) (a :: *) where
 deriving instance Show a => Show (Vector n a)
 ```
 
-Lo primero que observamos es que además de la extensión `GADTs` hemos añadido la extensión `KindSignatures`. Esta extensión nos permite anotar el tipo de los tipos en las declaraciones, tal y como anotaríamos el tipo de una expresión. Haskell puede deducirlo perfectamente, así que no es obligatorio, pero así queda explícito que nuestro nuevo constructor de tipos `Vector` toma un tipo `n` del tipo `Nat` (representando la longitud de la lista) y un tipo a del tipo `*` (representando el tipo de dato almacenado en la lista).
+Lo primero que observamos es que además de la extensión `GADTs` hemos añadido la extensión `KindSignatures`. Esta extensión nos permite anotar el tipo de los tipos en las declaraciones, tal y como anotaríamos el tipo de una expresión. Haskell puede deducirlo perfectamente, así que no es obligatorio, pero así queda explícito que nuestro nuevo constructor de tipos `Vector` toma un tipo `n` del tipo `Nat` (representando la longitud de la lista) y un tipo `a` del tipo `*` (representando el tipo de dato almacenado en la lista).
 
 `Vector` tiene dos constructores de datos:
 
 * `VNil`, que devuelve un vector de longitud cero.
 * `VCons`, que toma un dato y un vector de longitud `n`, y devuelve un vector de longitud `n+1`. No sabemos qué longitud tiene el vector que recibe, pero sí sabemos que el vector resultante será una unidad más grande.
 
+```haskell
+gchi> :t VNil
+VNil :: Vector 'Zero a
+
+gchi> :t VCons 'a' (VCons 'b' (VCons 'c' VNil))
+VCons 'a' (VCons 'b' (VCons 'c' VNil)) :: Vector ('Succ ('Succ ('Succ 'Zero))) Char
+
+gchi> :t VCons True (VCons False VNil)
+VCons True (VCons False VNil) :: Vector ('Succ ('Succ 'Zero)) Bool
+```
+
 ## Operaciones sobre vectores
 
-Ya tenemos nuestros vectores. ¿Y ahora qué? Los hemos creado para trabajar con ellos, así que ahora deberíamos definir algunas operaciones. Por ejemplo, vamos a crear una función que dado un vector nos devuelva su cola. El tipo de esta función sería:
+Ya tenemos nuestros vectores, así que ahora deberíamos definir algunas operaciones. Por ejemplo, vamos a crear una función que dado un vector nos devuelva su cola. El tipo de esta función sería:
 
 ```haskell
 tailv :: Vector (‘Succ n) a -> Vector n a
 ```
 
-Estamos especificando mediante el tipo, que el resultado de quitar el primer elemento a un vector debe ser un vector con un elemento menos. Tiene sentido. Además, ya de paso estamos descartando los vectores vacíos. Es decir, esta función sólo acepta vectores con longitud mayor que cero. Parece lógico.
+Estamos especificando mediante el tipo que el resultado de quitar el primer elemento a un vector debe ser un vector con un elemento menos. Tiene sentido. Además, ya de paso estamos descartando los vectores nulos como entrada. Es decir, esta función sólo acepta vectores con longitud mayor que cero. Parece lógico.
 
 ```haskell
 tailv :: Vector ('Succ n) a -> Vector n a
@@ -105,11 +116,11 @@ Ahora vamos a crear una función que dados dos vectores de longitud arbitraria `
 appendv :: Vector n a -> Vector m a -> Vector (?) a
 ```
 
-Aquí tenemos un problema, ¿qué escribimos en `(?)`? El vector resultante debería tener longitud `n+m`, pero ¿cómo expresamos esto a nivel de tipo? A estas operaciones a nivel de tipo se las denomina [**familias de tipos**](https://wiki.haskell.org/GHC/Type_families). Al aplicar una función a los parámetros se produce un tipo. Para utilizarlas, tenemos que incluir la extensión `TypeFamilies`.
+No obstante, aquí nos encontramos con un problema: ¿cuál es el tipo del vector resultante? Sabemos que debería tener longitud `n+m`, pero ¿cómo expresamos esto en el tipo? A estas operaciones a nivel de tipo se las denomina [**familias de tipos**](https://wiki.haskell.org/GHC/Type_families). Al aplicar una función a los parámetros se produce un tipo. Para utilizarlas, tenemos que incluir la extensión `TypeFamilies`.
 
 > Type families are to vanilla data types what type class methods are to regular functions
 
-Por lo tanto, vamos a crear una familia que dados dos tipos del tipo `Nat`, nos devuelva un tipo del tipo `Nat` que represente la suma de ambos. En cierta forma, es similar a la definición de la función `add` que hemos proporcionado antes a nivel de término.
+Por lo tanto, vamos a crear una familia que dados dos tipos del tipo `Nat`, nos devuelva un tipo del tipo `Nat` que represente la suma de ambos tipos. La definición de esta familia es análoga a la definición de la función `add` que hemos proporcionado antes para sumar números naturales a nivel de término.
 
 ```haskell
 {-# LANGUAGE TypeFamilies #-}
@@ -118,7 +129,7 @@ type family Add (n :: Nat) (m :: Nat) where
     Add ('Succ n) m = 'Succ (Add n m)
 ```
 
-Ahora sí, podemos crear nuestra función `appendv :: Vector n a -> Vector m a -> Vector (Add n m) a`, definida de forma muy similar a la concatenación de dos listas en Haskell:
+Ahora sí, podemos definir la función `appendv :: Vector n a -> Vector m a -> Vector (Add n m) a` de forma similar a como se define la concatenación de dos listas en Haskell:
 
 ```haskell
 appendv :: Vector n a -> Vector m a -> Vector (Add n m) a
@@ -131,12 +142,10 @@ ghci> appendv (VCons 1 (VCons 2 (VCons 3 VNil))) (VCons 4 (VCons 5 VNil))
 VCons 1 (VCons 2 (VCons 3 (VCons 4 (VCons 5 VNil))))
 
 ghci> :t appendv (VCons 1 (VCons 2 VNil)) (VCons 3 (VCons 4 VNil))
-appendv (VCons 1 (VCons 2 VNil)) (VCons 3 (VCons 4 VNil))
-  :: Num a => Vector ('Succ ('Succ ('Succ ('Succ 'Zero)))) a
+appendv (VCons 1 (VCons 2 VNil)) (VCons 3 (VCons 4 VNil)) :: Num a => Vector ('Succ ('Succ ('Succ ('Succ 'Zero)))) a
 ```
 
-La principal diferencia entre nuestros vectores con longitud indexada y las listas predefinidas en Haskell, es que el **sistema de tipo** comprobará en tiempo de compilación que la lista resultante de la operación `appendv` tiene la longitud correcta. Si en alguna de las ecuaciones de la función no es posible deducir la longitud esperada, se producirá un fallo en tiempo de compilación.
-
+La principal diferencia entre nuestros vectores con longitud indexada y las listas predefinidas en Haskell es que el **sistema de tipo** puede verificar, en tiempo de compilación, que la lista resultante de la operación `appendv` tiene la longitud correcta.
 ## Referencias
 
 * [Generalised algebraic datatype - HaskellWiki](https://wiki.haskell.org/Generalised_algebraic_datatype)
