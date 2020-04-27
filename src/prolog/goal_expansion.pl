@@ -11,19 +11,16 @@ replace(Old, New, F, F_) :-
     F_ =.. [P|Args_].
 replace(_, _, X, X).
 
-for(From, To, _, _, true) :- From > To.
-for(From, To, Var, Body, (X,Xs)) :-
-    From =< To,
-    succ(From, From_),
-    copy_term(Body, Body_),
-    replace(Var, From, Body_, X),
-    for(From_, To, Var, Body, Xs).
-
-goal_expansion(for Var from From to To do Body, For) :-
-    nonvar(Var), integer(From), integer(To), callable(Body),
-    for(From, To, Var, Body, For).
+goal_expansion(for _ from N to M do _, true) :- N > M.
+goal_expansion(for Var from N to M do Body, (BodyN,BodyM)) :-
+    N =< M,
+    succ(N, N2),
+    copy_term(Body, Body2),
+    replace(Var, N, Body2, BodyN),
+    goal_expansion(for Var from N2 to M do Body, BodyM).
 
 squares :- for x from 1 to 10 do (
     Y is x*x,
-    write((x, Y))
+    write((x, Y)),
+    nl
 ).

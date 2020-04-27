@@ -13,7 +13,7 @@
 			<category><![CDATA[expansión-de-objetivos]]></category>
 			<category><![CDATA[macros]]></category>
 			<pubDate>Mon, 27 Apr 2020 01:25:55 GMT</pubDate>
-			<description><![CDATA[Aunque el estándar ISO Prolog no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación. Estos predicados permiten realizar una traducción de los términos Prolog leídos desde una fuente a los términos Prolog manejados por el intérprete.]]></description>
+			<description><![CDATA[Aunque el estándar ISO Prolog no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación. Estos predicados permiten realizar una transformación de los términos Prolog leídos desde una fuente.]]></description>
 		</item>
 		<item>
 			<title><![CDATA[Prolog — Gramáticas de cláusulas definidas]]></title>
