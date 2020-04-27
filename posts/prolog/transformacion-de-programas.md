@@ -54,21 +54,21 @@ ___
 
 ## Expansión de objetivos
 
-Como `term_expansion/2`, el predicado `goal_expansion/2` se utiliza a modo de expansión de macros de código Prolog. Entre la fase de expansión de términos y la fase de compilación, el cuerpo de las cláusulas analizadas y los objetivos son manejados por el predicado `goal_expansion/2`, que permite al usuario definir sus propias transformaciones.
+Como `term_expansion/2`, el predicado `goal_expansion/2` se utiliza a modo de expansión de macros de código Prolog. Entre la fase de expansión de términos y la fase de compilación, el cuerpo de las cláusulas analizadas y los objetivos son manejados por el predicado `goal_expansion/2`, que permite al usuario definir sus propias transformaciones. La fase de expansión de objetivos calcula un punto fijo aplicando transformaciones hasta que no hay más cambios.
 
 ___
 
 **Ejemplo 2.** Supongamos que queremos definir bucles donde podamos realizar una acción repetidas veces, dando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprimiría por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
 
 ```prolog
-squares :- for x from 1 to 10 do (
-    Y is x*x,
-    write((x, Y)),
+squares :- for X from 1 to 10 do (
+    Y is X*X,
+    write((X, Y)),
     nl
 ).
 ```
 
-Podemos utilizar la expansión de objetivos para desplegar el bucle en tiempo de compilación. Para que este tipo de construcciones sean válidas, primero debemos declarar algunos operadores (`for`, `from`, `to` y `do`). El predicado `replace/4` reemplaza todas las ocurrencias de un término por otro en un término dado. Finalmente declaramos la expansión del objetivo de la forma `for Var from N to M do Body` a una conjunción de objetivos `Body'` donde la variable `Var` se ha reemplazado en cada objetivo por el valor correspondiente de la iteración desde `N` hasta `M`.
+Podemos utilizar la expansión de objetivos para desplegar los bucles en tiempo de compilación. Para que este tipo de construcciones sean válidas, primero debemos declarar algunos operadores (`for`, `from`, `to` y `do`). A continuación declaramos la expansión del objetivo de la forma `(for Var from N to M do Body)` a una conjunción de objetivos `(Bn, B(n+1), ..., Bm)`, donde la variable `Var` se ha reemplazado en cada objetivo `Bi` por el valor correspondiente de la `i`-ésima iteración desde `N` hasta `M`.
 
 ```prolog
 :- use_module(library(lists)).
@@ -77,23 +77,15 @@ Podemos utilizar la expansión de objetivos para desplegar el bucle en tiempo de
 :- op(700, xfx, from).
 :- op(600, xfx, to).
 
-replace(Old, New, X, New) :- Old == X, !.
-replace(Old, New, F, F_) :-
-    nonvar(F), F =.. [P|Args],
-    maplist(replace(Old, New), Args, Args_),
-    F_ =.. [P|Args_].
-replace(_, _, X, X).
-
 goal_expansion(for _ from N to M do _, true) :- N > M.
 goal_expansion(for Var from N to M do Body, (BodyN,BodyM)) :-
     N =< M,
     succ(N, N2),
-    copy_term(Body, Body2),
-    replace(Var, N, Body2, BodyN),
+    copy_term((Var,Body), (N,BodyN)),
     goal_expansion(for Var from N2 to M do Body, BodyM).
 ```
 
-Nótese que el predicado `copy_term/2` crea una copia idéntica del cuerpo original, pero con variables renombradas (frescas), ya que cada iteración debe utilizar sus propias variables sin entrar en conflicto con las variables de otras iteraciones. Ahora podemos comprobar que el compilador ha desplegado el bucle del predicado `squares/0` de la siguiente forma:
+Nótese que el predicado `copy_term/2` crea copias idénticas del cuerpo original `Body`, pero con variables renombradas (frescas), ya que cada iteración debe utilizar sus propias variables sin entrar en conflicto con las variables de otras iteraciones. Ahora podemos comprobar que el compilador ha desplegado el bucle del predicado `squares/0` de la siguiente forma:
 
 ```prolog
 squares :-
