@@ -1,7 +1,7 @@
 # Prolog - Transformación de programas
 > Expansión de términos y objetivos
 
-Aunque el estándar **ISO Prolog** no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación. Estos predicados permiten realizar una transformación de los términos Prolog leídos desde una fuente.
+Toda cláusula Prolog es un término Prolog válido, lo cual implica que podemos analizar y procesar código Prolog utilizando predicados y características incorporadas del propio lenguaje, y es especialmente conveniente a la hora de definir transformaciones automáticas de programas. Aunque el estándar **ISO Prolog** no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación.
 
 ## Expansión de términos
 
@@ -52,13 +52,15 @@ X = 3.
 
 ___
 
+Las [gramáticas de cláusulas definidas](https://github.com/jariazavalverde/blog/blob/master/posts/prolog/gramaticas-de-clausulas-definidas.md) son otro clásico ejemplo de la expansión de términos.
+
 ## Expansión de objetivos
 
 Como `term_expansion/2`, el predicado `goal_expansion/2` se utiliza a modo de expansión de macros de código Prolog. Entre la fase de expansión de términos y la fase de compilación, el cuerpo de las cláusulas analizadas y los objetivos son manejados por el predicado `goal_expansion/2`, que permite al usuario definir sus propias transformaciones. La fase de expansión de objetivos calcula un punto fijo aplicando transformaciones hasta que no hay más cambios.
 
 ___
 
-**Ejemplo 2.** Supongamos que queremos definir bucles donde podamos realizar una acción repetidas veces, dando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprimiría por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
+**Ejemplo 2.** Supongamos que queremos definir bucles donde podamos realizar una acción repetidas veces, asignando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprime por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
 
 ```prolog
 squares :- for X from 1 to 10 do (
@@ -115,6 +117,65 @@ squares :-
 9,81
 10,100
 ```
+
+___
+
+**Ejemplo 3.** Supongamos que queremos definir predicados *al vuelo*, como si de funciones anónimas se tratasen, para ser utilizadas como argumento en otros predicados de orden superior. Por ejemplo:
+
+```prolog
+?- F@([X,Y] => Y is X+1), maplist(F, [1,2,3,4,5,6], Xs).
+F = '_lambda0', Xs = [2,3,4,5,6,7].
+
+?- F@([X] => 0 is X mod 2), include(F, [1,2,3,4,5,6], Xs).
+F = '_lambda1', Xs = [2,4,6].
+```
+
+Podemos utilizar la expansión de objetivos para añadir a la base de datos estos predicados *anónimos* en tiempo de compilación. Como siempre, primero definimos algunos operadores (`@` y `=>`). A continuación declaramos la expansión del objetivo `(V@([A1, A2, ..., An] => Body))` a un término `(V = P)`, que unifica la variable `V` con el nombre asignado al predicado anónimo `_lambdai/n` que se ha añadido a la base de datos -definido como `(_lambdai(A1, A2, ..., An) :- Body)`-, siendo `i` un identificador automático que se incrementa cada vez que se expande uno de estos predicados anónimos.
+
+```prolog
+:- use_module(library(lists)).
+:- op(1150, xfx, =>).
+:- op(100, xfx, @).
+
+:- dynamic(current_lambda/1).
+current_lambda(0).
+
+goal_expansion(V@(Head => Body), V = P) :-
+    current_lambda(Id),
+    retract(current_lambda(_)),
+    succ(Id, Id_),
+    asserta(current_lambda(Id_)),
+    number_chars(Id, Chars),
+    atom_chars(Atom, Chars),
+    atom_concat('_lambda', Atom, P),
+    F =.. [P|Head],
+    assertz((F :- Body)).
+```
+
+Con esta expansión, el siguiente predicado `double_me/2`:
+
+```prolog
+double_me(Xs, Ys) :-
+    F@([X,Y] => Y is X*2),
+    maplist(F, Xs, Ys).
+```
+
+es compilado de la siguiente forma:
+
+```prolog
+'_lambda0'(X, Y) :- Y is X*2.
+
+double_me(Xs, Ys) :-
+    F = '_lambda0',
+    maplist(F, Xs, Ys).
+```
+
+```prolog
+?- double_me([1,2,3], Xs).
+Xs = [2,4,6]
+```
+
+Nótese que también se pueden definir estos predicados anónimos al lanzar directamente un objetivo, no sólo en el cuerpo de una regla.
 
 ___
 
