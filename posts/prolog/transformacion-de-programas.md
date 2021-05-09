@@ -9,7 +9,7 @@ Cuando el predicado `term_expansion/2` es definido por el usuario, todos los té
 
 ___
 
-**Ejemplo 1.** Supongamos que queremos definir predicados con un estilo *ecuacional*, donde el resultado de la operación será la última expresión de la parte derecha de la ecuación. Por ejemplo:
+**Ejemplo 1.** Queremos definir predicados con un estilo *ecuacional*, donde el resultado de la operación será la última expresión de la parte derecha de la ecuación. Por ejemplo:
 
 ```prolog
 head([H|_]) := H.
@@ -60,7 +60,7 @@ Como `term_expansion/2`, el predicado `goal_expansion/2` se utiliza a modo de ex
 
 ___
 
-**Ejemplo 2.** Supongamos que queremos definir bucles donde podamos realizar una acción repetidas veces, asignando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprime por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
+**Ejemplo 2.** Queremos definir bucles donde podamos realizar una acción repetidas veces, asignando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprime por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
 
 ```prolog
 squares :- for X from 1 to 10 do (
@@ -120,7 +120,7 @@ squares :-
 
 ___
 
-**Ejemplo 3.** Supongamos que queremos definir predicados *al vuelo*, como si de funciones anónimas se tratasen, para ser utilizadas como argumento en otros predicados de orden superior. Por ejemplo:
+**Ejemplo 3.** Queremos definir predicados *al vuelo*, como si de funciones anónimas se tratasen, para ser utilizadas como argumento en otros predicados de orden superior. Por ejemplo:
 
 ```prolog
 ?- F@([X,Y] => Y is X+1), maplist(F, [1,2,3,4,5,6], Xs).
@@ -172,7 +172,7 @@ double_me(Xs, Ys) :-
 
 ```prolog
 ?- double_me([1,2,3], Xs).
-Xs = [2,4,6]
+Xs = [2,4,6].
 ```
 
 Nótese que también se pueden definir estos predicados anónimos al lanzar directamente un objetivo, no sólo en el cuerpo de una regla.
