@@ -17,7 +17,7 @@ append([H|T], X, [H|S]) :- append(T, X, S).
 X = [1, 2, 3, 4, 5, 6].
 ```
 
-![append/3](https://github.com/jariazavalverde/blog/blob/master/img/01-02.png)
+<img src="../../img/prolog/estructuras-de-datos-incompletas/append.png">
 
 Mediante esta definición, para concatenar dos listas se deben recorrer todos los elementos de la primera hasta llegar al final, donde se inserta la segunda. Por lo tanto, este predicado tiene **complejidad lineal** respecto al tamaño de la primera lista.
 
@@ -53,7 +53,7 @@ X = [1, 2, 3], H = [].
 X = [1, 2, 3, 4, 5, 6], H = [4, 5, 6].
 ```
 
-![Lista abierta](https://github.com/jariazavalverde/blog/blob/master/img/01-03.png)
+<img src="../../img/prolog/estructuras-de-datos-incompletas/hueco.png">
 
 Una **lista diferencia** es un par formado por una lista abierta y su hueco. En Prolog, representaremos este par como `L-H`, donde `L` es una lista abierta que tiene como hueco a la variable `H`. Por ejemplo: `[1, 2, 3|X]-X`.
 
@@ -89,7 +89,7 @@ Cuando trabajamos con listas diferencia, debemos manipular siempre la estructura
 
 La lista diferencia vacía se representa como `X-X`. Para transformar una lista diferencia en una **lista estándar** simplemente hay que unificar el hueco de la lista diferencia con la lista vacía `[]`.
 
-![De lista diferencia a lista estándar](https://github.com/jariazavalverde/blog/blob/master/img/01-04.png)
+<img src="../../img/prolog/estructuras-de-datos-incompletas/lista-ordinaria.png">
 
 ___
 **Ejemplo 1.** El predicado `flatten/2` es cierto cuando la segunda lista es la concatenación de todas las sublistas contenidas en la primera lista (análogamente el predicado `flatten_diff/2` con listas diferencia).

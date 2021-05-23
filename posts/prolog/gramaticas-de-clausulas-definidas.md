@@ -52,6 +52,14 @@ true.
 
 ?- oracion([tienen, colmillos, vampiros], []).
 false.
+
+?- oracion(X, []).
+X = [los, belmont, matan, los, belmont] ;
+X = [los, belmont, matan, los, vampiros] ;
+X = [los, belmont, matan, los, colmillos] ;
+X = [los, belmont, matan, un, belmont] ;
+X = [los, belmont, matan, un, vampiros] ;
+% ...
 ```
 ___
 
