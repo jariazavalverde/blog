@@ -2,6 +2,7 @@
 
 ## Haskell
 
+* [Analizadores sintácticos monádicos](https://github.com/jariazavalverde/blog/blob/master/posts/haskell/analizadores-sintacticos-monadicos.md) `26/05/2021`
 * [Programación a nivel de tipo](https://github.com/jariazavalverde/blog/blob/master/posts/haskell/programacion-a-nivel-de-tipo.md) `20/05/2018`
 
 ## Prolog
