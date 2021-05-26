@@ -2,8 +2,19 @@
 <rss version="2.0">
 	<channel>
 		<title>JARV's blog</title>
-		<description><![CDATA[Blog of José Antonio Riaza Valverde]]></description>
+		<description><![CDATA[Blog de José Antonio Riaza Valverde]]></description>
 		<link>http://jariaza.es/blog</link>
+		<item>
+			<title><![CDATA[Haskell — Analizadores sintácticos monádicos]]></title>
+			<link>https://github.com/jariazavalverde/blog/blob/master/posts/haskell/analizadores-sintacticos-monadicos.md</link>
+			<category><![CDATA[programación-funcional]]></category>
+			<category><![CDATA[haskell]]></category>
+			<category><![CDATA[mónada]]></category>
+			<category><![CDATA[análisis-sintáctico]]></category>
+			<category><![CDATA[parser]]></category>
+			<pubDate>Wed, 26 May 2021 17:56:47 GMT</pubDate>
+			<description><![CDATA[Un analizador sintáctico es un programa que analiza cadenas de símbolos y permite transformarlas en algún tipo de representación interna. En programación funcional, una mónada es una estructura que representa una forma de computación y que favorece la programación con efectos de forma genérica. Los analizadores sintácticos son uno de los muchos problemas que las mónadas ayudan a simplificar.]]></description>
+		</item>
 		<item>
 			<title><![CDATA[Prolog — Transformación de programas]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/transformacion-de-programas.md</link>
