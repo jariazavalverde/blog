@@ -104,7 +104,7 @@ ___
 
 ## Fallos y alternativas
 
-Es conveniente introducir un combinador para manejar fallos y alternativas, de forma que sea posible lanzar un analizador y, si este no tiene éxito, lanzar otro en su defecto. Esto es lo que hace la función `<|>` de la instancia `Alternative` de un analizador.
+Es conveniente introducir un combinador para manejar fallos y alternativas, de forma que sea posible lanzar un analizador y, si este no tiene éxito, ejecutar otro en su defecto. Esto es lo que hace la función `<|>` de la instancia `Alternative` de un analizador.
 
 ```haskell
 instance Alternative Parser where
@@ -136,10 +136,10 @@ Nothing
 ```
 ___
 
-La interfaz de funtor aplicativo es lo suficientemente expresiva para analizar cualquier gramática libre de contexto.
+La interfaz de funtor aplicativo es lo suficientemente expresiva para analizar  gramáticas libres de contexto. Una **gramática libre de contexto** es una gramática formal en la que cada regla de producción es de la forma `A → α`, donde `A` es un símbolo no terminal y `α` es una cadena de símbolos terminales y no terminales. El término libre de contexto se refiere al hecho de que el símbolo no terminal `A` siempre puede ser reemplazado por `α` sin tener en cuenta el contexto en el que ocurra.
 
 ___
-**Ejemplo 4.** Supongamos que queremos analizar expresiones aritméticas que contienen números naturales, sumas (`+`), productos (`*`) y paréntesis `(` y `)` para agrupar expresiones, con la precedencia usual de los operadores, y sin asociatividad, generando un árbol de análisis que defina la estructura de la expresión aritmética analizada.
+**Ejemplo 4.** Supongamos que queremos analizar expresiones aritméticas que contienen números naturales, sumas (`+`), productos (`*`) y paréntesis `(` y `)` para agrupar expresiones, con la precedencia usual de los operadores, pero **sin asociatividad**, generando un árbol de análisis que defina la estructura de la expresión aritmética analizada.
 
 ```haskell
 data Expr = Val Int
@@ -187,7 +187,7 @@ ___
 
 ## Análisis monádico
 
-Como veremos en el siguiente ejemplo, para analizar algunas gramáticas es necesario extraer el valor generado por un analizador, y pasarlo como parámetro a una función que devuelve otro analizador. De esto se encarga la función lazo `>>=` de la instancia de `Monad` de un analizador.
+Para analizar algunas gramáticas es necesario extraer el valor generado por un analizador, y pasarlo como parámetro a una función que devuelva otro analizador. De esto se encarga la función lazo `>>=` de la instancia de `Monad` de un analizador.
 
 ```haskell
 instance Monad Parser where
