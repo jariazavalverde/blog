@@ -102,7 +102,9 @@ Just ((1,'a'), "")
 ```
 ___
 
-Antes de mostrar ejemplos más complejos sobre el estilo aplicativo para análisis sintáctico, conviene introducir un combinador para analizar alternativas, de forma que sea posible lanzar un analizador y, si este falla, lanzar otro alternativamente. Esto es lo que permite la función `<|>` de la instancia `Alternative` de un analizador.
+## Fallos y alternativas
+
+Es conveniente introducir un combinador para manejar fallos y alternativas, de forma que sea posible lanzar un analizador y, si este no tiene éxito, lanzar otro en su defecto. Esto es lo que hace la función `<|>` de la instancia `Alternative` de un analizador.
 
 ```haskell
 instance Alternative Parser where
@@ -112,14 +114,17 @@ instance Alternative Parser where
         Just (x, xs) -> Just (x, xs)
 ```
 
-Esta clase nos da acceso a dos funciones realmente útiles para el análisis sintáctico: `many` y `some`. `many` toma un analizador `p` de un tipo `a` y devuelve un analizador del tipo `[a]`, que aplica cero o más veces el analizador `p`. `many` hace lo mismo, pero para tener éxito debe poder aplicar al menos una vez el analizador `p`.
+Esta clase nos da acceso a dos funciones realmente útiles para el análisis sintáctico:
+
+* `many` toma un analizador `p` de un tipo `a` y devuelve un analizador del tipo `[a]` que aplica **cero o más veces** el analizador `p`.
+* `some` toma un analizador `p` de un tipo `a` y devuelve un analizador del tipo `[a]` que aplica **una o más veces** el analizador `p`.
 
 ___
-**Ejemplo 3.** Un número natural es una secuencia **no nula** de dígitos. Podemos utilizar el combinador `many` para consumir uno o más dígitos numéricos de la entrada, y transformar la cadena resultante a un entero mediante `fmap` (o su versión infija `<$>`).
+**Ejemplo 3.** Un número natural es una secuencia **no nula** de dígitos. Podemos utilizar el combinador `some` para consumir uno o más dígitos numéricos de la entrada, y transformar la cadena resultante a un entero mediante `fmap` (o su versión infija `<$>`).
 
 ```haskell
 natural :: Parser Int
-natural = read <$> many (sat isDigit)
+natural = read <$> some (sat isDigit)
 ```
 
 ```haskell
@@ -143,7 +148,7 @@ data Expr = Val Int
           deriving Show
 ```
 
-La gramática libre de contexto correspodiente es la siguiente:
+La gramática libre de contexto correspondiente es la siguiente:
 
 * `<Expr> → <Factor> "+" <Factor> | <Factor>`
 * `<Factor> → <Term> "*" <Term> | <Term>`
@@ -153,7 +158,7 @@ donde `|` es un operador usado para separar múltiples opciones para un mismo no
 
 ```haskell
 natural :: Parser Int
-natural = read <$> many (sat isDigit)
+natural = read <$> some (sat isDigit)
 
 expr :: Parser Expr
 expr = (Add <$> (factor <* char '+') <*> factor) <|> factor
@@ -182,7 +187,7 @@ ___
 
 ## Análisis monádico
 
-Como veremos en el siguiente ejemplo, para analizar algunas gramáticas es necesario extraer el valor generado por un analizador, y pasarlo como parámetro a una función que devuelve otro analizador. De esto se encarga el lazo (la función `>>=`) de la instancia de `Monad` de un analizador.
+Como veremos en el siguiente ejemplo, para analizar algunas gramáticas es necesario extraer el valor generado por un analizador, y pasarlo como parámetro a una función que devuelve otro analizador. De esto se encarga la función lazo `>>=` de la instancia de `Monad` de un analizador.
 
 ```haskell
 instance Monad Parser where
@@ -210,7 +215,7 @@ donde `ε` representa la producción nula.
 
 ```haskell
 natural :: Parser Int
-natural = read <$> many (sat isDigit)
+natural = read <$> some (sat isDigit)
 
 expr :: Parser Expr
 expr = do x <- factor

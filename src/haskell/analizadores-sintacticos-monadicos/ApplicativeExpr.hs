@@ -6,7 +6,7 @@ module ApplicativeExpr (
 
 import Parser ( Parser(..), sat, char )
 import Data.Char ( isDigit )
-import Control.Applicative ( Alternative((<|>), many) )
+import Control.Applicative ( Alternative((<|>), some) )
 
 data Expr = Val Int
           | Add Expr Expr
@@ -14,7 +14,7 @@ data Expr = Val Int
           deriving Show
 
 natural :: Parser Int
-natural = read <$> many (sat isDigit)
+natural = read <$> some (sat isDigit)
 
 expr :: Parser Expr
 expr = (Add <$> (factor <* char '+') <*> factor) <|> factor
