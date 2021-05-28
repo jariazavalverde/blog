@@ -4,8 +4,6 @@ Un **analizador sintáctico** es un programa que analiza cadenas de símbolos y 
 
 _**Nota.** En este artículo se asume que el lector tiene familiaridad con las clases de funtores aplicativos y mónadas en Haskell._
 
-<img src="../../img/haskell/analizadores-sintacticos-monadicos/parser.png">
-
 ## Analizadores sintácticos
 
 Aquí, definiremos un analizador sintáctico como una función que toma una cadena de caracteres -la entrada que debe ser analizada- y que **posiblemente** devuelve un par formado por el valor analizado -la representación interna- y el resto de la cadena que queda por analizar.
@@ -104,6 +102,8 @@ ___
 
 ## Fallos y alternativas
 
+<img align="right" src="../../img/haskell/analizadores-sintacticos-monadicos/alternative.png">
+
 Es conveniente introducir un combinador para manejar fallos y alternativas, de forma que sea posible lanzar un analizador y, si este no tiene éxito, ejecutar otro en su defecto. Esto es lo que hace la función `<|>` de la instancia `Alternative` de un analizador.
 
 ```haskell
@@ -140,6 +140,8 @@ La interfaz de funtor aplicativo es lo suficientemente expresiva para analizar  
 
 ___
 **Ejemplo 4.** Supongamos que queremos analizar expresiones aritméticas que contienen números naturales, sumas (`+`), productos (`*`) y paréntesis `(` y `)` para agrupar expresiones, con la precedencia usual de los operadores, pero **sin asociatividad**, generando un árbol de análisis que defina la estructura de la expresión aritmética analizada.
+
+<img align="right" width="300" src="../../img/haskell/analizadores-sintacticos-monadicos/parser.png">
 
 ```haskell
 data Expr = Val Int
