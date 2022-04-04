@@ -1,4 +1,3 @@
-:- use_module(library(lists)).
 :- op(1200, xfx, :=).
 
 result(X, (A,C), D) :-
@@ -13,8 +12,7 @@ term_expansion((Head1 := Expr), (Head2 :- Body)) :-
     append(Xs, [Result], Ys),
     Head2 =.. Ys.
 
-% head :: [a] -> a
+/*
 head([H|_]) := H.
-
-% add :: Int -> Int -> Int
 add(X, Y) := Z is X+Y, Z.
+*/

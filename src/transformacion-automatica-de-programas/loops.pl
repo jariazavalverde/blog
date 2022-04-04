@@ -1,4 +1,3 @@
-:- use_module(library(lists)).
 :- op(850, xfx, do).
 :- op(800, fx, for).
 :- op(700, xfx, from).
@@ -11,8 +10,10 @@ goal_expansion(for Var from N to M do Body, (BodyN,BodyM)) :-
     copy_term((Var,Body), (N,BodyN)),
     goal_expansion(for Var from N2 to M do Body, BodyM).
 
+/*
 squares :- for X from 1 to 10 do (
     Y is X*X,
     write((X, Y)),
     nl
 ).
+*/

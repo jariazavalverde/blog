@@ -1,4 +1,3 @@
-:- use_module(library(lists)).
 :- op(1150, xfx, =>).
 :- op(100, xfx, @).
 
@@ -16,6 +15,8 @@ goal_expansion(V@(Head => Body), V = P) :-
     F =.. [P|Head],
     assertz((F :- Body)).
 
+/*
 double_me(Xs, Ys) :-
     F@([X,Y] => Y is X*2),
     maplist(F, Xs, Ys).
+*/

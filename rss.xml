@@ -25,7 +25,7 @@
 			<category><![CDATA[Macros]]></category>
 			<pubDate>Mon, 27 Apr 2020 01:25:55 GMT</pubDate>
 			<slug>transformacion-automatica-de-programas</slug>
-			<description><![CDATA[Toda cláusula Prolog es un término Prolog válido, lo cual implica que podemos analizar y procesar código Prolog utilizando predicados y características incorporadas del propio lenguaje, y es especialmente conveniente a la hora de definir transformaciones automáticas de programas. Aunque el estándar ISO Prolog no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación.]]></description>
+			<description><![CDATA[Toda cláusula Prolog es un término Prolog válido, lo cual implica que podemos analizar y procesar código Prolog utilizando predicados y características incorporadas del propio lenguaje. Esto es especialmente conveniente a la hora de definir transformaciones automáticas de programas. Aunque el estándar ISO Prolog no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación.]]></description>
 		</item>
 		<item>
 			<title><![CDATA[Gramáticas de cláusulas definidas]]></title>
