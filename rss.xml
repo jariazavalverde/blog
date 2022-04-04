@@ -5,60 +5,57 @@
 		<description><![CDATA[Blog de José Antonio Riaza Valverde]]></description>
 		<link>http://jariaza.es/blog</link>
 		<item>
-			<title><![CDATA[Haskell — Analizadores sintácticos monádicos]]></title>
+			<title><![CDATA[Analizadores sintácticos monádicos]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/haskell/analizadores-sintacticos-monadicos.md</link>
-			<category><![CDATA[programación-funcional]]></category>
-			<category><![CDATA[haskell]]></category>
-			<category><![CDATA[mónada]]></category>
-			<category><![CDATA[análisis-sintáctico]]></category>
-			<category><![CDATA[parser]]></category>
+			<category><![CDATA[Haskell]]></category>
+			<category><![CDATA[Programación funcional]]></category>
+			<category><![CDATA[Mónadas]]></category>
+			<category><![CDATA[Análisis sintáctico]]></category>
 			<pubDate>Wed, 26 May 2021 17:56:47 GMT</pubDate>
 			<slug>analizadores-sintacticos-monadicos</slug>
-			<description><![CDATA[Un analizador sintáctico es un programa que analiza cadenas de símbolos y permite transformarlas en algún tipo de representación interna. En programación funcional, una mónada es una estructura que representa una forma de computación y que favorece la programación con efectos de forma genérica. Los analizadores sintácticos son uno de los muchos problemas que las mónadas ayudan a simplificar.]]></description>
+			<description><![CDATA[Un analizador sintáctico es un programa que analiza cadenas de símbolos y permite transformarlas en algún tipo de representación más estructurada. Por otra parte, en programación funcional, una mónada es una estructura que representa una forma de computación, y favorece la programación con efectos de forma genérica. El análisis sintáctico es uno de los muchos problemas que las mónadas ayudan a simplificar.]]></description>
 		</item>
 		<item>
-			<title><![CDATA[Prolog — Transformación de programas]]></title>
+			<title><![CDATA[Transformación automática de programas]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/transformacion-de-programas.md</link>
-			<category><![CDATA[programación-lógica]]></category>
-			<category><![CDATA[prolog]]></category>
-			<category><![CDATA[expansión-de-términos]]></category>
-			<category><![CDATA[expansión-de-objetivos]]></category>
-			<category><![CDATA[macros]]></category>
+			<category><![CDATA[Prolog]]></category>
+			<category><![CDATA[Programación lógica]]></category>
+			<category><![CDATA[Expansión de términos]]></category>
+			<category><![CDATA[Expansión de objetivos]]></category>
+			<category><![CDATA[Macros]]></category>
 			<pubDate>Mon, 27 Apr 2020 01:25:55 GMT</pubDate>
-			<slug>transformacion-de-programas</slug>
+			<slug>transformacion-automatica-de-programas</slug>
 			<description><![CDATA[Toda cláusula Prolog es un término Prolog válido, lo cual implica que podemos analizar y procesar código Prolog utilizando predicados y características incorporadas del propio lenguaje, y es especialmente conveniente a la hora de definir transformaciones automáticas de programas. Aunque el estándar ISO Prolog no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación.]]></description>
 		</item>
 		<item>
-			<title><![CDATA[Prolog — Gramáticas de cláusulas definidas]]></title>
+			<title><![CDATA[Gramáticas de cláusulas definidas]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/gramaticas-de-clausulas-definidas.md</link>
-			<category><![CDATA[programación-lógica]]></category>
-			<category><![CDATA[prolog]]></category>
-			<category><![CDATA[análisis-sintáctico]]></category>
-			<category><![CDATA[gramática]]></category>
-			<category><![CDATA[dcg]]></category>
+			<category><![CDATA[Prolog]]></category>
+			<category><![CDATA[Programación lógica]]></category>
+			<category><![CDATA[Análisis sintáctico]]></category>
+			<category><![CDATA[Gramática]]></category>
+			<category><![CDATA[DCG]]></category>
 			<pubDate>Fri, 19 Apr 2019 21:05:26 GMT</pubDate>
 			<slug>gramaticas-de-clausulas-definidas</slug>
 			<description><![CDATA[Las gramáticas de cláusulas definidas (DCG's) permiten representar una gramática formal como un conjunto de cláusulas definidas en una lógica de primer orden. Estas DCG's proporcionan a los lenguajes de programación lógicos como Prolog una forma conveniente y efectiva de expresar gramáticas, resultando especialmente útiles en el procesamiento de lenguajes naturales y de lenguajes formales.]]></description>
 		</item>
 		<item>
-			<title><![CDATA[Haskell — Programación a nivel de tipo]]></title>
+			<title><![CDATA[Programación a nivel de tipo]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/haskell/programacion-a-nivel-de-tipo.md</link>
-			<category><![CDATA[programación-funcional]]></category>
-			<category><![CDATA[haskell]]></category>
-			<category><![CDATA[programación-a-nivel-de-tipo]]></category>
-			<category><![CDATA[vectores]]></category>
-			<category><![CDATA[longitud-indexada]]></category>
+			<category><![CDATA[Haskell]]></category>
+			<category><![CDATA[Programación funcional]]></category>
+			<category><![CDATA[Programación a nivel de tipo]]></category>
+			<category><![CDATA[Vectores de longitud indexada]]></category>
 			<pubDate>Sun, 20 May 2018 15:34:23 GMT</pubDate>
 			<slug>programacion-a-nivel-de-tipo</slug>
 			<description><![CDATA[La programación a nivel de tipo implica codificar cierta lógica en el sistema de tipo del lenguaje, que es evaluada y comprobada en tiempo de compilación. Uno de los ejemplos más típicos es el de los vectores con longitud indexada, que añaden la longitud de la lista en el sistema de tipo, evitando estáticamente errores de "fuera de límites".]]></description>
 		</item>
 		<item>
-			<title><![CDATA[Prolog — Estructuras de datos incompletas]]></title>
+			<title><![CDATA[Estructuras de datos incompletas]]></title>
 			<link>https://github.com/jariazavalverde/blog/blob/master/posts/prolog/estructuras-de-datos-incompletas.md</link>
-			<category><![CDATA[listas]]></category>
-			<category><![CDATA[listas-diferencia]]></category>
-			<category><![CDATA[programación-lógica]]></category>
-			<category><![CDATA[prolog]]></category>
+			<category><![CDATA[Prolog]]></category>
+			<category><![CDATA[Programación lógica]]></category>
+			<category><![CDATA[Listas diferencia]]></category>
 			<pubDate>Tue, 15 Aug 2017 17:06:19 GMT</pubDate>
 			<slug>estructuras-de-datos-incompletas</slug>
 			<description><![CDATA[Las estructuras de datos incompletas proporcionan una técnica de programación propia de Prolog que permite incrementar la eficiencia de los programas lógicos y simplificar su diseño. Estas estructuras se apoyan en el uso de variables lógicas para representar huecos, los cuales simbolizan partes de las estructuras que todavía no han sido computadas. La estructura incompleta más utilizada es la lista diferencia.]]></description>

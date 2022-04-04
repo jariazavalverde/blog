@@ -1,15 +1,14 @@
-# Prolog - Transformación de programas
-> Expansión de términos y objetivos
+# Transformación automática de programas
 
-Toda cláusula Prolog es un término Prolog válido, lo cual implica que podemos analizar y procesar código Prolog utilizando predicados y características incorporadas del propio lenguaje, y es especialmente conveniente a la hora de definir transformaciones automáticas de programas. Aunque el estándar **ISO Prolog** no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación.
+Toda cláusula Prolog es un término Prolog válido, lo cual implica que podemos analizar y procesar código Prolog utilizando predicados y características incorporadas del propio lenguaje, y es especialmente conveniente a la hora de definir transformaciones automáticas de programas. Aunque el estándar *ISO Prolog* no define ningún mecanismo de transformación de programas tales como la expansión de macros o la compilación condicional, todos los sistemas Prolog ampliamente utilizados proporcionan predicados que permiten reescribir código en tiempo de compilación.
 
 ## Expansión de términos
 
 Cuando el predicado `term_expansion/2` es definido por el usuario, todos los términos leídos durante la consulta de un programa son pasados por este predicado. Si `term_expansion(+Term1, -Term2)` tiene éxito, Prolog añadirá a la base de datos el término `Term2` proporcionado por este predicado en lugar del término `Term1` leído originalmente.
 
-___
+### Predicados con notación ecuacional
 
-**Ejemplo 1.** Queremos definir predicados con un estilo *ecuacional*, donde el resultado de la operación será la última expresión de la parte derecha de la ecuación. Por ejemplo:
+Queremos definir predicados con un estilo *ecuacional*, donde el resultado de la operación será la última expresión de la parte derecha de la ecuación. Por ejemplo:
 
 ```prolog
 head([H|_]) := H.
@@ -50,17 +49,15 @@ X = 1.
 X = 3.
 ```
 
-___
-
-Las [gramáticas de cláusulas definidas](https://github.com/jariazavalverde/blog/blob/master/posts/prolog/gramaticas-de-clausulas-definidas.md) son otro clásico ejemplo de la expansión de términos.
+Las [gramáticas de cláusulas definidas](https://jariaza.es/blog/gramaticas-de-clausulas-definidas) son otro clásico ejemplo de la expansión de términos.
 
 ## Expansión de objetivos
 
 Como `term_expansion/2`, el predicado `goal_expansion/2` se utiliza a modo de expansión de macros de código Prolog. Entre la fase de expansión de términos y la fase de compilación, el cuerpo de las cláusulas analizadas y los objetivos son manejados por el predicado `goal_expansion/2`, que permite al usuario definir sus propias transformaciones. La fase de expansión de objetivos calcula un punto fijo aplicando transformaciones hasta que no hay más cambios.
 
-___
+### Bucles
 
-**Ejemplo 2.** Queremos definir bucles donde podamos realizar una acción repetidas veces, asignando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprime por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
+Queremos definir bucles donde podamos realizar una acción repetidas veces, asignando distintos valores a una variable en un intervalo. Por ejemplo, el siguiente predicado `squares/0` imprime por la salida estándar los números comprendidos en el intervalo `[1, 10]` junto al valor de sus cuadrados:
 
 ```prolog
 squares :- for X from 1 to 10 do (
@@ -118,9 +115,9 @@ squares :-
 10,100
 ```
 
-___
+### Predicados anónimos
 
-**Ejemplo 3.** Queremos definir predicados *al vuelo*, como si de funciones anónimas se tratasen, para ser utilizadas como argumento en otros predicados de orden superior. Por ejemplo:
+Queremos definir predicados *al vuelo*, como si de funciones anónimas se tratasen, para ser utilizadas como argumento en otros predicados de orden superior. Por ejemplo:
 
 ```prolog
 ?- F@([X,Y] => Y is X+1), maplist(F, [1,2,3,4,5,6], Xs).
@@ -176,8 +173,6 @@ Xs = [2,4,6].
 ```
 
 Nótese que también se pueden definir estos predicados anónimos al lanzar directamente un objetivo, no sólo en el cuerpo de una regla.
-
-___
 
 ## Referencias
 

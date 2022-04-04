@@ -1,13 +1,12 @@
-# Haskell - Programación a nivel de tipo
-> Vectores con longitud indexada
+# Programación a nivel de tipo
 
-La **programación a nivel de tipo** implica codificar cierta lógica en el **sistema de tipo** del lenguaje, que es evaluada y comprobada en tiempo de compilación. Uno de los ejemplos más típicos es el de los **vectores con longitud indexada**, que añaden la longitud de la lista en el sistema de tipo, evitando estáticamente errores de *"fuera de límites"*.
+La *programación a nivel de tipo* implica codificar cierta lógica en el *sistema de tipo* del lenguaje, que es evaluada y comprobada en tiempo de compilación. Uno de los ejemplos más típicos es el de los *vectores con longitud indexada*, que añaden la longitud de la lista en el sistema de tipo, evitando estáticamente errores de *"fuera de límites"*.
 
-Un **tipo dependiente** es un tipo cuya definición depende del valor. Por ejemplo, un *"número entero"* es un tipo, mientras que un *"número entero impar"* es un tipo dependiente, ya que depende del valor del número. A diferencia de otros lenguajes funcionales como Agda, Haskell diferencia entre el **nivel de término** y el **nivel de tipo**. Esta distinción hace imposible el uso de tipos dependientes, pero es posible imitar sus efectos mediante el uso de extensiones de GHC.
+Un *tipo dependiente* es un tipo cuya definición depende del valor. Por ejemplo, un *número entero* es un tipo, mientras que un *número entero impar* es un tipo dependiente, ya que depende del valor del número. A diferencia de otros lenguajes funcionales como Agda, Haskell diferencia entre el *nivel de término* y el *nivel de tipo*. Esta distinción hace imposible el uso de tipos dependientes, pero es posible imitar sus efectos mediante el uso de extensiones de GHC.
 
 ## Números naturales a nivel de tipo
 
-Vamos a codificar nuestros primeros números a nivel de tipo. Para ello, utilizaremos la representación de los [**números naturales de Peano**](https://es.wikipedia.org/wiki/Axiomas_de_Peano), donde un número se define como **cero** o como el **sucesor** de otro número natural.
+Vamos a codificar nuestros primeros números a nivel de tipo. Para ello, utilizaremos la representación de los [*números naturales de Peano*](https://es.wikipedia.org/wiki/Axiomas_de_Peano), donde un número se define como *cero* o como el *sucesor* de otro número natural.
 
 ```haskell
 {-# LANGUAGE DataKinds #-}
@@ -34,17 +33,15 @@ add Zero m = m
 add (Succ n) m = Succ (add n m)
 ```
 
-Pero nosotros queremos números naturales a nivel de tipo, no de término, así que tenemos que subir GHC de nivel. La extensión `DataKinds` nos permite exactamente esto, *promover* los constructores de datos a constructores de tipos, así como los constructores de tipos a tipos de tipos. Para diferenciarlos, Haskell precede el nombre de estos nuevos constructores con una comilla simple (`'`).
-
-***Nota.** Para utilizar `DataKinds` en GHCi de forma interactiva, hay que establecer la opción `:seti -XDataKinds`.*
+Pero nosotros queremos números naturales a nivel de tipo, no de término, así que tenemos que subir GHC de nivel. La extensión `DataKinds` nos permite exactamente esto, *promover* los constructores de datos a constructores de tipos, así como los constructores de tipos a tipos de tipos. Para diferenciarlos, Haskell precede el nombre de estos nuevos constructores con una comilla simple (`'`).<sup>[[1]](#footnote-1)</sup>
 
 Ahora, del mismo modo que el tipo del tipo `Int` es `*`, y el tipo del constructor de tipos `Maybe` es `* -> *`, podemos observar que el tipo (`:kind`) del tipo `'Zero` es `Nat`, y el tipo del constructor de tipos `'Succ` es `Nat -> Nat`.
 
 ## Vectores con longitud indexada
 
-Como ya dijimos, los **vectores con longitud indexada** son listas que añaden su longitud en el sistema de tipo. Para definirlos, necesitamos introducir los **tipos de datos algebraicos generalizados** (**GADTs**).
+Como ya dijimos, los *vectores con longitud indexada* son listas que añaden su longitud en el sistema de tipo. Para definirlos, necesitamos introducir los *tipos de datos algebraicos generalizados* (*GADTs*).
 
-Los [**GADTs**](https://wiki.haskell.org/Generalised_algebraic_datatype) son tipos de datos para los cuales un constructor tiene un tipo no estándar. Esto nos permite proporcionar información adicional del tipo al ajustar los constructores:
+Los [*GADTs*](https://wiki.haskell.org/Generalised_algebraic_datatype) son tipos de datos para los cuales un constructor tiene un tipo no estándar. Esto nos permite proporcionar información adicional del tipo al ajustar los constructores:
 
 ```haskell
 {-# LANGUAGE DataKinds, KindSignatures, GADTs, StandaloneDeriving #-}
@@ -75,8 +72,6 @@ gchi> :t VCons True (VCons False VNil)
 VCons True (VCons False VNil) :: Vector ('Succ ('Succ 'Zero)) Bool
 ```
 
-## Operaciones sobre vectores
-
 Ya tenemos nuestros vectores, así que ahora deberíamos definir algunas operaciones. Por ejemplo, vamos a crear una función que dado un vector nos devuelva su cola. El tipo de esta función sería:
 
 ```haskell
@@ -89,7 +84,6 @@ Estamos especificando mediante el tipo que el resultado de quitar el primer elem
 tailv :: Vector ('Succ n) a -> Vector n a
 tailv (VCons _ xs) = xs
 ```
-
 
 ```haskell
 ghci> tailv (VCons 1 (VCons 2 (VCons 3 VNil)))
@@ -116,7 +110,7 @@ Ahora vamos a crear una función que dados dos vectores de longitud arbitraria `
 appendv :: Vector n a -> Vector m a -> Vector (?) a
 ```
 
-No obstante, aquí nos encontramos con un problema: ¿cuál es el tipo del vector resultante? Sabemos que debería tener longitud `n+m`, pero ¿cómo expresamos esto en el tipo? A estas operaciones a nivel de tipo se las denomina [**familias de tipos**](https://wiki.haskell.org/GHC/Type_families). Al aplicar una función a los parámetros se produce un tipo. Para utilizarlas, tenemos que incluir la extensión `TypeFamilies`.
+No obstante, aquí nos encontramos con un problema: ¿cuál es el tipo del vector resultante? Sabemos que debería tener longitud `n+m`, pero ¿cómo expresamos esto en el tipo? A estas operaciones a nivel de tipo se las denomina [*familias de tipos*](https://wiki.haskell.org/GHC/Type_families). Al aplicar una función a los parámetros se produce un tipo. Para utilizarlas, tenemos que incluir la extensión `TypeFamilies`.
 
 > Type families are to vanilla data types what type class methods are to regular functions
 
@@ -145,8 +139,13 @@ ghci> :t appendv (VCons 1 (VCons 2 VNil)) (VCons 3 (VCons 4 VNil))
 appendv (VCons 1 (VCons 2 VNil)) (VCons 3 (VCons 4 VNil)) :: Num a => Vector ('Succ ('Succ ('Succ ('Succ 'Zero)))) a
 ```
 
-La principal diferencia entre nuestros vectores con longitud indexada y las listas predefinidas en Haskell es que el **sistema de tipo** puede verificar, en tiempo de compilación, que la lista resultante de la operación `appendv` tiene la longitud correcta.
+La principal diferencia entre nuestros vectores con longitud indexada y las listas predefinidas en Haskell es que el *sistema de tipo* puede verificar, en tiempo de compilación, que la lista resultante de la operación `appendv` tiene la longitud correcta.
+
 ## Referencias
 
 * [Generalised algebraic datatype - HaskellWiki](https://wiki.haskell.org/Generalised_algebraic_datatype)
 * [GHC/Type families - HaskellWiki](https://wiki.haskell.org/GHC/Type_families)
+
+## Notas
+
+1. <sub id="footnote-1">Para utilizar `DataKinds` en GHCi de forma interactiva, hay que establecer la opción `:seti -XDataKinds`.</sub>

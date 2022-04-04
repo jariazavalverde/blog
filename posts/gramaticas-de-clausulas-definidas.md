@@ -1,15 +1,13 @@
-# Prolog - Gramáticas de cláusulas definidas
-> Procesamiento de gramáticas formales
+# Gramáticas de cláusulas definidas
 
-Las **gramáticas de cláusulas definidas** (**DCG's**) permiten representar una gramática formal como un conjunto de cláusulas definidas en una lógica de primer orden. Estas DCG's proporcionan a los lenguajes de programación lógicos como Prolog una forma conveniente y efectiva de expresar gramáticas, resultando especialmente útiles en el **procesamiento** de **lenguajes naturales** y de **lenguajes formales**.
+Las *gramáticas de cláusulas definidas* (*DCG's*) permiten representar una gramática formal como un conjunto de cláusulas definidas en una lógica de primer orden. Estas DCG's proporcionan a los lenguajes de programación lógicos como Prolog una forma conveniente y efectiva de expresar gramáticas, resultando especialmente útiles en el *procesamiento* de *lenguajes naturales* y de *lenguajes formales*.
 
-***Nota.*** *Como veremos a continuación, las DCG's están muy relacionadas con las **listas abiertas** y las **listas diferencia**. Puedes leer el artículo [Prolog - Estructuras de datos incompletas](https://github.com/jariazavalverde/blog/blob/master/posts/prolog/estructuras-de-datos-incompletas.md) para obtener más información sobre estas.*
+Como veremos a continuación, las DCG's están muy relacionadas con las *listas abiertas* y las *listas diferencia*. Puedes leer el artículo [Estructuras de datos incompletas](https://jariaza.es/blog/estructuras-de-datos-incompletas) para obtener más información sobre estas.
 
 ## Sintaxis
 
-Una **gramática formal** es una estructura matemática con un conjunto de reglas de producción que definen las cadenas admisibles en un determinado lenguaje formal o lenguaje natural.
+Una *gramática formal* es una estructura matemática con un conjunto de reglas de producción que definen las cadenas admisibles en un determinado lenguaje formal o lenguaje natural.
 
-___
 **Ejemplo 1.** Un sencillo ejemplo ayuda a ilustrar qué son estas DCG's y para qué sirven. En gramática, decimos que una oración está formada por un sujeto (un sintagma nominal) y un predicado (un sintagma verbal). Un sintagma nominal está formado a su vez por un sustantivo posiblemente precedido por un determinante, y un sintagma verbal está formado por un verbo y un sintagma nominal.
 
 ```prolog
@@ -42,8 +40,6 @@ verbo --> [matan].
 verbo --> [tienen].
 ```
 
-<img align="right" width="200" src="../../img/prolog/gramaticas-de-clausulas-definidas/dracula.png">
-
 Ahora, esta gramática nos permite comprobar si determinadas cadenas son correctas o no, como por ejemplo, `los vampiros tienen colmillos` o `los belmont matan vampiros`. Más aún, esta gramática puede ser utilizada para derivar, por reevaluación, todas las cadenas permitidas por el lenguaje descrito.
 
 ```prolog
@@ -61,13 +57,11 @@ X = [los, belmont, matan, un, belmont] ;
 X = [los, belmont, matan, un, vampiros] ;
 % ...
 ```
-___
 
-Como vemos en el ejemplo anterior, las producciones de la gramática se definen en Prolog mediante reglas de la forma `Cabeza --> Cuerpo`, donde la cabeza representa un símbolo no terminal de la gramática y el cuerpo es una cadena de símbolos terminales y no terminales. Un símbolo **terminal** se expresa en Prolog como una lista, que representa los elementos que contiene. Un símbolo **no terminal** se refiere a otra construcción de la gramática, que representa los elementos que ella misma describe.
+Como vemos en el ejemplo anterior, las producciones de la gramática se definen en Prolog mediante reglas de la forma `Cabeza --> Cuerpo`, donde la cabeza representa un símbolo no terminal de la gramática y el cuerpo es una cadena de símbolos terminales y no terminales. Un símbolo *terminal* se expresa en Prolog como una lista, que representa los elementos que contiene. Un símbolo *no terminal* se refiere a otra construcción de la gramática, que representa los elementos que ella misma describe.
 
 En realidad, esta notación de DCG es simplemente azúcar sintáctico para las cláusulas definidas normalmente en Prolog. Aquí es donde entran en juego las listas abiertas y las listas diferencia.
 
-___
 **Ejemplo 2.** Podemos expresar la gramática anterior como un conjunto de cláusulas Prolog estándar de la siguiente forma. En estos predicados, la primera lista contiene los elementos que se deben analizar, y cada uno busca lo que necesita al frente de la primera lista, unificando la segunda lista con lo que queda por analizar. Por ejemplo, cuando `oracion/2` busca un sintagma nominal en `[los, belmont, matan, vampiros]`, `sintagma_nominal/2` encuentra `[los, belmont]` y deja el resto de la lista, `[matan, vampiros]`, para que ahora `sintagma_verbal/2` busque un predicado. Como el predicado es `[matan, vampiros]`, ahora `sintagma_verbal/2` deja una lista vacía `[]` como resto por analizar, y como `sintagma_verbal/2` era el último símbolo de la regla `oracion/2`, `oracion/2` deja por analizar esa misma lista vacía.
 
 ```prolog
@@ -97,17 +91,15 @@ verbo([tienen|L], L).
 ```
 
 Por lo tanto, cuando lanzamos el objetivo `oracion([...], [])` estamos preguntando si es posible analizar por completo todos los símbolos de la primera lista mediante esa regla.
-___
 
 Cada vez que introducimos una regla de producción `Cabeza --> Cuerpo` en un intérprete de Prolog, este transforma la sintaxis de DCG a una cláusula Prolog estándar de la forma que acabamos de ver.
 
 ## Gramáticas libres de contexto
 
-Una **gramática libre de contexto** es una gramática formal en la que cada regla de producción es de la forma `A → α`, donde `A` es un símbolo no terminal y `α` es una cadena de símbolos terminales y no terminales. El término libre de contexto se refiere al hecho de que el símbolo no terminal `A` siempre puede ser reemplazado por `α` sin tener en cuenta el contexto en el que ocurra.
+Una *gramática libre de contexto* es una gramática formal en la que cada regla de producción es de la forma `A → α`, donde `A` es un símbolo no terminal y `α` es una cadena de símbolos terminales y no terminales. El término libre de contexto se refiere al hecho de que el símbolo no terminal `A` siempre puede ser reemplazado por `α` sin tener en cuenta el contexto en el que ocurra.
 
 Estas son prácticamente las mismas palabras que acabamos de utilizar para describir las gramáticas de cláusulas definidas de Prolog. Esto es porque las DCG's tal y como las hemos visto hasta el momento, sólo permiten analizar lenguajes libres de contexto.
 
-___
 **Ejemplo 3.** Una simple gramática libre de contexto formada por las siguientes reglas de producción:
 
 * `<A> → "a" <A> | <B>`
@@ -139,15 +131,13 @@ true.
 ?- a([b,a,c], []).
 false.
 ```
-___
 
 Las gramáticas libres de contexto son simples y permiten describir la sintaxis de la mayoría de los lenguajes de programación. No obstante, no son lo suficientemente expresivas para describir cualquier lenguaje formal. Supongamos que en lugar de generar el lenguaje `{a*b*c*}` estuviésemos interesados en generar cadenas con el mismo número de terminales `a`, `b` y `c`, es decir, el lenguaje `{aⁿbⁿcⁿ : n>0}`. Para ello, debemos recurrir a las gramáticas sensibles al contexto.
 
 ## Gramáticas sensibles al contexto
 
-Una **gramática sensible al contexto** es una gramática formal en la que cada regla de producción es de la forma `α → β`, donde `α` y `β` son cadenas de símbolos terminales y no terminales que no permiten producciones vacías (`ε`).
+Una *gramática sensible al contexto* es una gramática formal en la que cada regla de producción es de la forma `α → β`, donde `α` y `β` son cadenas de símbolos terminales y no terminales que no permiten producciones vacías (`ε`).
 
-___
 **Ejemplo 4.** La gramática sensible al contexto formada por las siguientes reglas de producción:
 
 * `<A> → "abc" | "a" <A> <B> "c"`
@@ -183,13 +173,11 @@ X = 3.
 ?- s(X, [a,b,b,c,c,c], []).
 false.
 ```
-___
 
 ## Árboles de análisis
 
 El uso más práctico y común de los parámetros adicionales en las gramáticas de cláusulas definidas es el de capturar información sobre el proceso de análisis de una cadena para construir su árbol de análisis.
 
-___
 **Ejemplo 5.** La siguiente gramática analiza expresiones aritméticas formadas por números naturales, paréntesis y los operadores binarios `+` y `*` (sin asociatividad).
 
 * `<Expresion> → <Factor> "+" <Factor> | <Factor>`
@@ -236,4 +224,3 @@ X = add(mul(102, 34), mul(22, 35)).
 ?- atom_chars('(102*(34+22))*35', C), expresion(X, C, []).
 X = mul(mul(102, add(34, 22)), 35).
 ```
-___
