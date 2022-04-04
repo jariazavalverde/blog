@@ -8,13 +8,13 @@ import Parser ( Parser(..), sat, char )
 import Data.Char ( isDigit )
 import Control.Applicative ( Alternative((<|>), some) )
 
-data Expr = Val Int
+data Expr = K Int
           | Add Expr Expr
           | Mul Expr Expr
           deriving Show
 
-natural :: Parser Int
-natural = read <$> some (sat isDigit)
+natural :: Parser Expr
+natural = K . read <$> some (sat isDigit)
 
 expr :: Parser Expr
 expr = do x <- factor
@@ -38,4 +38,4 @@ term :: Parser Expr
 term = (do char '('
            x <- expr
            char ')'
-           return x) <|> (Val <$> natural)
+           return x) <|> natural

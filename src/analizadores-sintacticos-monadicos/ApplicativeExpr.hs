@@ -8,19 +8,19 @@ import Parser ( Parser(..), sat, char )
 import Data.Char ( isDigit )
 import Control.Applicative ( Alternative((<|>), some) )
 
-data Expr = Val Int
+data Expr = K Int
           | Add Expr Expr
           | Mul Expr Expr
           deriving Show
 
-natural :: Parser Int
-natural = read <$> some (sat isDigit)
+natural :: Parser Expr
+natural = K . read <$> some (sat isDigit)
 
 expr :: Parser Expr
-expr = (Add <$> (factor <* char '+') <*> factor) <|> factor
+expr = (Add <$> (factor <* char '+') <*> expr) <|> factor
 
 factor :: Parser Expr
-factor = (Mul <$> (term <* char '*') <*> term) <|> term
+factor = (Mul <$> (term <* char '*') <*> factor) <|> term
 
 term :: Parser Expr
-term = (char '(' *> expr <* char ')') <|> (Val <$> natural)
+term = (char '(' *> expr <* char ')') <|> natural
